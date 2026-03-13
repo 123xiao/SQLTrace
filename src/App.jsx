@@ -638,6 +638,24 @@ export default function App() {
       .trim();
   };
 
+  const handlePasteFromClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text && text.trim()) {
+        setRawText(text);
+        setToast({ type: 'success', message: '已从剪贴板粘贴日志内容' });
+        setTimeout(() => setToast(null), 2000);
+      } else {
+        setToast({ type: 'error', message: '剪贴板为空' });
+        setTimeout(() => setToast(null), 2000);
+      }
+    } catch (err) {
+      console.error('读取剪贴板失败:', err);
+      setToast({ type: 'error', message: '读取剪贴板失败，请检查浏览器权限' });
+      setTimeout(() => setToast(null), 3000);
+    }
+  };
+
   const handleSort = (key) => {
     if (sortKey === key) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -663,6 +681,54 @@ export default function App() {
     localStorage.setItem("theme", theme);
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  // 检测 URL 参数，自动从剪贴板读取日志
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const source = urlParams.get('source');
+
+    if (source === 'clipboard') {
+      // 从剪贴板读取
+      navigator.clipboard.readText()
+        .then(text => {
+          if (text && text.trim()) {
+            setRawText(text);
+            setToast({ type: 'success', message: '已从剪贴板加载日志内容' });
+            // 自动解析
+            setTimeout(() => {
+              handleParse(text);
+            }, 500);
+          } else {
+            setToast({ type: 'error', message: '剪贴板为空' });
+          }
+        })
+        .catch(err => {
+          console.error('读取剪贴板失败:', err);
+          setToast({ type: 'error', message: '读取剪贴板失败，请手动粘贴日志内容' });
+        });
+
+      // 清除 URL 参数
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (source === 'external') {
+      // 从 localStorage 读取外部传入的日志
+      const externalLog = localStorage.getItem('external_log_data');
+      if (externalLog) {
+        setRawText(externalLog);
+        setToast({ type: 'success', message: '已加载外部日志内容' });
+        // 自动解析
+        setTimeout(() => {
+          handleParse(externalLog);
+        }, 500);
+        // 清除数据
+        localStorage.removeItem('external_log_data');
+      } else {
+        setToast({ type: 'error', message: '未找到外部日志数据' });
+      }
+
+      // 清除 URL 参数
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -761,6 +827,7 @@ export default function App() {
           </div>
           <div className="button-row">
             <button onClick={() => handleParse(rawText)}>解析日志</button>
+            <button className="secondary" onClick={handlePasteFromClipboard}>📋 从剪贴板粘贴</button>
             <button className="secondary" onClick={() => setRawText("")}>清空</button>
             {/* <button className="ghost" onClick={handleSample}>加载示例</button> */}
           </div>
@@ -1026,7 +1093,11 @@ export default function App() {
         </div>
       </section>
 
-      {toast && <div className="toast">{toast}</div>}
+      {toast && (
+        <div className={`toast ${toast.type || ''}`}>
+          {typeof toast === 'string' ? toast : toast.message}
+        </div>
+      )}
 
       {showBackToTop && (
         <button className="back-to-top" onClick={scrollToTop} title="回到顶部">
