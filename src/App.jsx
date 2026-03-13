@@ -643,15 +643,19 @@ export default function App() {
       const text = await navigator.clipboard.readText();
       if (text && text.trim()) {
         setRawText(text);
-        setToast({ type: 'success', message: '已从剪贴板粘贴日志内容' });
-        setTimeout(() => setToast(null), 2000);
+        setToast({ type: 'success', message: '✓ 已从剪贴板粘贴日志内容' });
+        // 自动解析
+        setTimeout(() => {
+          handleParse(text);
+          setToast(null);
+        }, 1000);
       } else {
-        setToast({ type: 'error', message: '剪贴板为空' });
+        setToast({ type: 'error', message: '✗ 剪贴板为空' });
         setTimeout(() => setToast(null), 2000);
       }
     } catch (err) {
       console.error('读取剪贴板失败:', err);
-      setToast({ type: 'error', message: '读取剪贴板失败，请检查浏览器权限' });
+      setToast({ type: 'error', message: '✗ 读取剪贴板失败，请检查浏览器权限' });
       setTimeout(() => setToast(null), 3000);
     }
   };
