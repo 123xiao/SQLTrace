@@ -1691,7 +1691,7 @@ body:not(:has(.sequence-node.highlighted)) .sequence-node {
 }
 
 .sql-analysis-result {
-  margin-top: 20px;
+  margin-top: 40px;
   padding: 16px;
   background: rgba(10, 14, 22, 0.5);
   border: 1px solid var(--line);
@@ -1699,7 +1699,7 @@ body:not(:has(.sequence-node.highlighted)) .sequence-node {
 }
 
 .analysis-section {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .analysis-section:last-child {
@@ -1716,7 +1716,7 @@ body:not(:has(.sequence-node.highlighted)) .sequence-node {
 
 .analysis-sql-display {
   padding: 16px;
-  padding-top: 40px;
+  padding-top: 50px;
   background: rgba(10, 14, 22, 0.6);
   border: 1px solid var(--line);
   border-radius: 8px;
