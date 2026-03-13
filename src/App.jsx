@@ -688,42 +688,47 @@ export default function App() {
     const source = urlParams.get('source');
 
     if (source === 'clipboard') {
-      // 从剪贴板读取
-      navigator.clipboard.readText()
+      // 先检查剪贴板权限
+      navigator.permissions.query({ name: 'clipboard-read' })
+        .then(result => {
+          if (result.state === 'granted' || result.state === 'prompt') {
+            // 有权限或可以请求权限，尝试读取
+            return navigator.clipboard.readText();
+          } else {
+            // 权限被拒绝
+            throw new Error('PERMISSION_DENIED');
+          }
+        })
         .then(text => {
           if (text && text.trim()) {
             setRawText(text);
-            setToast({ type: 'success', message: '已从剪贴板加载日志内容' });
+            setToast({ type: 'success', message: '✓ 已从剪贴板加载日志内容' });
             // 自动解析
             setTimeout(() => {
               handleParse(text);
-            }, 500);
+              setToast(null);
+            }, 1000);
           } else {
-            setToast({ type: 'error', message: '剪贴板为空' });
+            setToast({ type: 'error', message: '✗ 剪贴板为空，请先复制日志内容' });
+            setTimeout(() => setToast(null), 3000);
           }
         })
         .catch(err => {
           console.error('读取剪贴板失败:', err);
-          setToast({ type: 'error', message: '读取剪贴板失败，请手动粘贴日志内容' });
-        });
 
-      // 清除 URL 参数
-      window.history.replaceState({}, '', window.location.pathname);
-    } else if (source === 'external') {
-      // 从 localStorage 读取外部传入的日志
-      const externalLog = localStorage.getItem('external_log_data');
-      if (externalLog) {
-        setRawText(externalLog);
-        setToast({ type: 'success', message: '已加载外部日志内容' });
-        // 自动解析
-        setTimeout(() => {
-          handleParse(externalLog);
-        }, 500);
-        // 清除数据
-        localStorage.removeItem('external_log_data');
-      } else {
-        setToast({ type: 'error', message: '未找到外部日志数据' });
-      }
+          if (err.message === 'PERMISSION_DENIED') {
+            setToast({
+              type: 'error',
+              message: '✗ 剪贴板权限被拒绝，请在浏览器设置中允许访问剪贴板，或手动粘贴日志内容'
+            });
+          } else {
+            setToast({
+              type: 'error',
+              message: '✗ 读取剪贴板失败，请点击下方「从剪贴板粘贴」按钮并授权，或手动粘贴日志内容'
+            });
+          }
+          setTimeout(() => setToast(null), 5000);
+        });
 
       // 清除 URL 参数
       window.history.replaceState({}, '', window.location.pathname);
