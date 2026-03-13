@@ -408,7 +408,7 @@ export default function App() {
   const [highlightTable, setHighlightTable] = useState(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [dbSchema, setDbSchema] = useState(() => {
-    const saved = localStorage.getItem("db_schema");
+    const saved = localStorage.getItem("dbSchema");
     return saved ? JSON.parse(saved) : null;
   });
 

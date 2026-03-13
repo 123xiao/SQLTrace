@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>测试编译后的代码</title>
+</head>
+<body>
+  <div id="output"></div>
+  <script>
+    // 模拟编译后的 parseMySQLSchema 函数
+    function parseMySQLSchema(l) {
+      const C = {};
+      const M = /CREATE TABLE\s+`?(\w+)`?\s*\(([\s\S]*?)\)\s*(ENGINE[\s\S]*?);/gi;
+      let y;
+      
+      while ((y = M.exec(l)) !== null) {
+        const N = y[1];
+        const g = y[2];
+        const u = y[3];
+        
+        let b = "";
+        const d = u.match(/COMMENT\s*=\s*'([^']+)'/i);
+        if (d) {
+          b = d[1];
+        }
+        
+        const L = {};
+        const E = g.split('\n');
+        
+        for (const w of E) {
+          const n = w.trim();
+          if (n.startsWith("PRIMARY KEY") || n.startsWith("UNIQUE INDEX") || 
+              n.startsWith("INDEX") || n.startsWith("KEY") || 
+              n.startsWith("CONSTRAINT") || !n.startsWith("`")) {
+            continue;
+          }
+          
+          const S = n.match(/`(\w+)`\s+([^\s]+(?:\([^)]+\))?)/i);
+          if (S) {
+            const f = S[1];
+            const A = S[2];
+            
+            let x = "";
+            const k = n.match(/COMMENT\s+'([^']+)'/i);
+            if (k) {
+              x = k[1];
+            }
+            
+            const O = new RegExp(`PRIMARY KEY.*?\(\`?${f}\`?\)`, "i").test(g);
+            L[f.toLowerCase()] = {
+              type: A,
+              comment: x,
+              isPrimary: O
+            };
+          }
+        }
+        
+        C[N.toUpperCase()] = {
+          name: N,
+          comment: b,
+          fields: L
+        };
+      }
+      
+      return C;
+    }
+    
+    // 测试 SQL
+    const testSQL = `CREATE TABLE test_table (
+  \`id\` int(11) COMMENT '主键ID',
+  \`name\` varchar(50) COMMENT '名称'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='测试表';`;
+    
+    const result = parseMySQLSchema(testSQL);
+    document.getElementById('output').innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+    console.log('解析结果:', result);
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>调试 localStorage</title>
+</head>
+<body>
+  <h2>localStorage 调试工具</h2>
+  <button onclick="checkStorage()">检查 dbSchema</button>
+  <button onclick="clearStorage()">清除 dbSchema</button>
+  <pre id="output"></pre>
+  
+  <script>
+    function checkStorage() {
+      const dbSchema = localStorage.getItem('dbSchema');
+      const output = document.getElementById('output');
+      
+      if (!dbSchema) {
+        output.textContent = 'localStorage 中没有 dbSchema 数据';
+        return;
+      }
+      
+      try {
+        const parsed = JSON.parse(dbSchema);
+        output.textContent = JSON.stringify(parsed, null, 2);
+        
+        // 检查是否有 comment 字段
+        let hasComments = false;
+        for (const tableName in parsed) {
+          const table = parsed[tableName];
+          if (table.comment) {
+            hasComments = true;
+            console.log(`表 ${tableName} 有注释: ${table.comment}`);
+          }
+          if (table.fields) {
+            for (const fieldName in table.fields) {
+              const field = table.fields[fieldName];
+              if (field.comment) {
+                hasComments = true;
+                console.log(`字段 ${tableName}.${fieldName} 有注释: ${field.comment}`);
+              }
+            }
+          }
+        }
+        
+        if (!hasComments) {
+          output.textContent += '\n\n⚠️ 警告：localStorage 中的数据没有任何 comment 字段！';
+        }
+      } catch (e) {
+        output.textContent = '解析失败: ' + e.message;
+      }
+    }
+    
+    function clearStorage() {
+      localStorage.removeItem('dbSchema');
+      document.getElementById('output').textContent = 'dbSchema 已清除';
+    }
+  </script>
+</body>
+</html>
