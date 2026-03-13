@@ -799,6 +799,21 @@ export default function App() {
 
       <>
         <div className="card fade-in" id="data-import">
+          <h3>摘要</h3>
+          <div className="stats">
+            <div className="stat">
+              <strong>{summary.lines}</strong>
+              <span>行数</span>
+            </div>
+            <div className="stat">
+              <strong>{summary.traces}</strong>
+              <span>Trace 数</span>
+            </div>
+            <div className="stat">
+              <strong>{summary.sqls}</strong>
+              <span>SQL 次数</span>
+            </div>
+          </div>
           <h2>数据导入</h2>
           <div className="control-group">
             <label className="label">日志格式</label>
@@ -845,21 +860,7 @@ export default function App() {
             </div>
           )}
 
-          <h3>摘要</h3>
-          <div className="stats">
-            <div className="stat">
-              <strong>{summary.lines}</strong>
-              <span>行数</span>
-            </div>
-            <div className="stat">
-              <strong>{summary.traces}</strong>
-              <span>Trace 数</span>
-            </div>
-            <div className="stat">
-              <strong>{summary.sqls}</strong>
-              <span>SQL 次数</span>
-            </div>
-          </div>
+          
         </div>
 
         <div className="card fade-in" id="trace-timeline">
