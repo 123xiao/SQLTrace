@@ -1,0 +1,88 @@
+# 依赖和包管理
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.pnp
+.pnp.js
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE 和编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.vim/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# 日志文件
+*.log
+logs/
+*.log.*
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+*.bak
+
+# 构建输出
+dist/
+build/
+.next/
+out/
+
+# 测试覆盖率
+coverage/
+.nyc_output/
+
+# 操作系统
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 数据文件
+*.csv
+*.xlsx
+*.xls
+data/
+output/
+results/
+
+# 缓存
+.cache/
+.eslintcache
+.stylelintcache

@@ -1,0 +1,354 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Spectral:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #0c1016;
+  --panel: #121824;
+  --panel-2: #141c2a;
+  --text: #e7e9ee;
+  --muted: #9aa3b2;
+  --accent: #f6c24b;
+  --accent-2: #77d4ff;
+  --danger: #ff7a7a;
+  --line: rgba(255, 255, 255, 0.08);
+  --glow: 0 0 28px rgba(246, 194, 75, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: "Spectral", "ZCOOL XiaoWei", serif;
+  background: radial-gradient(circle at 15% 20%, rgba(246, 194, 75, 0.12), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(119, 212, 255, 0.12), transparent 45%),
+    linear-gradient(160deg, #0a0f14 0%, #0f1622 45%, #0c1119 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  padding: 32px 36px 48px;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title-block h1 {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 42px);
+  font-family: "ZCOOL XiaoWei", serif;
+  letter-spacing: 0.08em;
+}
+
+.title-block p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.5;
+}
+
+.badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 36, 0.7);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.card {
+  background: linear-gradient(160deg, rgba(18, 24, 36, 0.92), rgba(14, 20, 32, 0.95));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+}
+
+.card h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+
+.card h3 {
+  margin: 16px 0 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-2);
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+input[type="file"],
+select,
+textarea,
+input[type="text"],
+input[type="number"] {
+  background: rgba(7, 10, 16, 0.85);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 1px solid transparent;
+  background: var(--accent);
+  color: #2a1a02;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--line);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--accent-2);
+  border-color: rgba(119, 212, 255, 0.4);
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--glow);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.stat {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(15, 19, 29, 0.7);
+  border: 1px solid var(--line);
+}
+
+.stat strong {
+  display: block;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 420px;
+  overflow: auto;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 12px rgba(119, 212, 255, 0.6);
+  margin-top: 6px;
+}
+
+.timeline-content {
+  border-left: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-left: 14px;
+  padding-bottom: 8px;
+}
+
+.timeline-content h4 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.timeline-content p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.4;
+  font-size: 12px;
+}
+
+.sql-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+}
+
+.sql-table th,
+.sql-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.sql-table th {
+  color: var(--accent-2);
+}
+
+.sql-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.sql-item {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(10, 14, 22, 0.8);
+  cursor: pointer;
+  transition: border 0.2s ease, transform 0.2s ease;
+}
+
+.sql-item:hover {
+  border-color: rgba(246, 194, 75, 0.7);
+  transform: translateY(-1px);
+}
+
+.sql-item h4 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.sql-item p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.log-viewer {
+  max-height: 320px;
+  overflow: auto;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(7, 10, 16, 0.9);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+}
+
+.log-line {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  padding: 4px 12px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.04);
+}
+
+.log-line span {
+  color: var(--muted);
+}
+
+.log-line.selected {
+  background: rgba(246, 194, 75, 0.12);
+  border-left: 3px solid var(--accent);
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

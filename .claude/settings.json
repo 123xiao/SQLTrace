@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :5173)",
+      "Bash(taskkill /F /PID 39292)",
+      "Bash(taskkill //F //PID 39292)",
+      "Read(//d/CoolVibe/log-fenxi/日志分析/**)",
+      "Bash(awk 'NR>=720 && NR<=740' src/App.jsx)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(lsof -ti:5173)",
+      "Bash(xargs kill:*)",
+      "Bash(curl -L \"https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Spectral:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap\" -o public/fonts/fonts.css)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\KK\\.claude\\projects\\d--CoolVibe-log-fenxi-----"
+    ]
+  }
+}
