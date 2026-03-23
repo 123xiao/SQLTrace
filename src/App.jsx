@@ -412,6 +412,19 @@ export default function App() {
     return saved ? JSON.parse(saved) : null;
   });
 
+  // 检查是否有从历史日志提取页面导入的日志
+  useEffect(() => {
+    const importedLogs = localStorage.getItem("imported_logs");
+    if (importedLogs) {
+      setRawText(importedLogs);
+      localStorage.removeItem("imported_logs");
+      // 自动触发解析
+      handleParse(importedLogs);
+      setToast({ type: 'success', message: '✓ 已导入历史日志提取的数据' });
+      setTimeout(() => setToast(null), 3000);
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -788,6 +801,13 @@ export default function App() {
             title="表结构管理"
           >
             📊 表结构
+          </button>
+          <button
+            className="page-toggle"
+            onClick={() => window.open("./trace-extractor.html", "_blank")}
+            title="历史日志提取"
+          >
+            🔍 历史日志
           </button>
         </div>
       </section>

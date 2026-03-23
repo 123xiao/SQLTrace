@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import App from "./App.jsx";
 import SchemaManager from "./SchemaManager.jsx";
+import TraceExtractor from "./TraceExtractor.jsx";
 import "./styles.css";
 
 createRoot(document.getElementById("root")).render(
@@ -10,6 +11,7 @@ createRoot(document.getElementById("root")).render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/schema" element={<SchemaManager />} />
+      <Route path="/trace-extractor" element={<TraceExtractor />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   </HashRouter>
