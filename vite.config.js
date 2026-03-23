@@ -16,6 +16,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         schema: resolve(__dirname, 'schema.html'),
+        traceExtractor: resolve(__dirname, 'trace-extractor.html'),
       },
       output: {
         manualChunks: undefined,
